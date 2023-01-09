@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title><%= title %></title>
+    <link rel="icon" type="image/x-icon" href="/img/vote.png">
+    <script>
+        function deleteElection(id) {
+        fetch(`/elections/${id}`, {
+            method: "delete",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+                "_csrf":token
+            })
+        }).then((res)=>{
+            if (res.ok) {
+                window.location.reload();
+            }
+        }).catch((err)=> console.error(err))
+    }
+    </script>
+    <style>
+        body{
+          background-size:cover;
+        }
+        .e{
+            display: flex;
+            flex-direction: column;
+        }
+        .one{
+            display: flex;
+        }
+        .two{
+            display: flex;
+            flex-direction: row;
+        }
+        .three{
+            display: flex;
+            flex-direction: row;
+        }
+        .four{
+            display: flex;
+            flex-direction: row;
+        }
+
+      </style>
+</head>
+
+<body class="bg-gray-50" background="img/image2.jpg">
+
+    <%- include('header.ejs') %>
+    <div class="my-6 mx-10">
+        <h1 >Welcome <%= userName %>!!!</h1>
+        <div>
+            <% if (messages.success) { %>
+                <p class="bg-cyan-100 m-3 list-none rounded-md px-4 py-2"><%= messages.success %></p>
+            <% } %>
+        </div>
+<br>
+       
+        <div class="one flex gap-2 py-4 justify-between">
+
+            <div class="bg-cyan-800 rounded w-fit px-2 py-1 hover:bg-cyan-600">
+                <a href="/elections/create" class="text-white font-serif hover:text-indigo-900 px-5">+ Add Election</a>
+            </div>
+        </div>
+    
+        <div class="e">
+        <!-- <div class="e flex-auto"> -->
+            <div class="mx-4">  
+                <p class="text-white font-serif text-white"><%= (elections.length==0)?"No elections created yet!!":"" %></p>
+                <ol style="list-style-type:lower-alpha" class="text-white">
+                    <% for (let i=0; i<elections.length; i++) { %>
+                        <li>
+                            <div class="flex items-center w-fit my-2 px-2 py-3">
+                                <a href="/elections/<%= elections[i].id %>" class="m-2 text-xl text-rose-400 font-serif hover:text-black"><%= elections[i].election_name %></a>
+                            </div>
+                        </li>
+                    <% } %>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
