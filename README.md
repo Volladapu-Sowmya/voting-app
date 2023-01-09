@@ -1,1 +1,1 @@
-# voting-app
+Online Voting Platform
